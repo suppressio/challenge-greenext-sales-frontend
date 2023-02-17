@@ -1,0 +1,45 @@
+.cart-container{
+  margin: 40px 160px;
+  min-width: 960px;
+}
+
+.receipt{
+  width: 36%;
+  height: 100%;
+  position: absolute;
+  right: 24px;
+  top: 62px;
+}
+
+table {
+  width: 60%;
+}
+
+.mat-column-qty {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-del {
+  width: 32px;
+  text-align: center;
+}
+
+mat-icon.icon{
+  color: transparent;
+  font-size: 18px;
+}
+
+mat-icon.disabled{
+  color: transparent;
+  font-size: 18px;
+}
+
+tr:hover{
+  td{
+    mat-icon.icon{
+      color: gray;
+    }
+  }
+}
+

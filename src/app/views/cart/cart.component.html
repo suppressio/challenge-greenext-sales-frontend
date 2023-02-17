@@ -1,0 +1,123 @@
+
+<div class="cart-container">
+  <mat-card style="height: calc(100vh - 200px); padding: 26px;">
+
+    <h3>
+      <span style="padding: 0 20px;"> Shopping Cart</span>
+      <span style="font-weight: lighter; font-size: smaller;">#{{(cart | async)?.id}} </span>
+    </h3>
+
+    <div style="position: absolute; top:18px; left: 25%; display: inline-block;">
+      <button mat-button style="margin-right: 16px;" (click)="quickBasket1()">
+        <mat-icon>shopping_basket</mat-icon> Quick 1
+      </button>
+
+      <button mat-button style="margin-right: 16px;" (click)="quickBasket2()">
+        <mat-icon>shopping_basket</mat-icon> Quick 2
+      </button>
+
+      <button mat-button style="margin-right: 16px;" (click)="quickBasket3()">
+        <mat-icon>shopping_basket</mat-icon> Quick 3
+      </button>
+      <button mat-button (click)="newCart()"><mat-icon>remove_shopping_cart</mat-icon> New Empty Cart </button>
+    </div>
+
+    <div style="position: absolute; top:18px; right: 16px; display: inline-block;">
+      <button mat-button
+        style="margin-right: 16px;"
+        [disabled]="((cart | async)?.arts?.length==0)"
+        (click)="generateReceipt()">
+        <mat-icon>receipt</mat-icon> Generate Receipt
+      </button>
+    </div>
+
+    <mat-card-content>
+
+      <table mat-table
+        [dataSource]="shoppingCart?.arts"
+        *ngIf="!((cart | async)?.arts?.length==0)"
+        class="mat-elevation-z4">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let element" style="font-weight: lighter; font-size: smaller;"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element" > {{element.art.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Unit Price </th>
+          <td mat-cell *matCellDef="let element"> {{element.art.price | number : '1.2-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tax">
+          <th mat-header-cell *matHeaderCellDef> Sales Taxes </th>
+          <td mat-cell *matCellDef="let element"> {{element.art.salesTaxes | number : '1.2-2'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="qty">
+          <th mat-header-cell *matHeaderCellDef> Qty </th>
+          <td mat-cell *matCellDef="let element">
+
+            <button mat-icon-button (click)="addToCart(element.art.id)">
+              <mat-icon mat-button class="icon">add</mat-icon>
+            </button>
+            {{element.qty}}
+            <button mat-icon-button [disabled]="element.qty<=1" (click)="removeFromCart(element.id)">
+              <mat-icon mat-button [class]="element.qty<=1? 'disabled':'icon'">remove</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="del">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="removeFromCart(element.id, element.qty)">
+              <mat-icon mat-button class="icon">delete_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+      </table>
+
+      <p *ngIf="(cart | async)?.arts?.length==0" style="width: 200px; text-align: center;">
+        <br>
+        Empty<br>
+        <br>
+      </p>
+
+      <div class="receipt" style="height: calc(100% - 110px); min-height: fit-content; font-family: 'Courier New', Courier, monospace;"
+        *ngIf="!((cart | async)?.arts?.length==0)">
+        <br>
+        <br>
+        <div *ngIf="receipt" style="background-color: rgb(255, 253, 250); width: 360px; margin: auto; padding: 12px; border: solid 1px lightgray; border-top: 2px dashed lightgray; border-bottom: 2px dashed lightgray;"
+          class="mat-elevation-z8">
+          <br>
+          <br>
+          <div *ngFor="let row of receipt.rows" style="display: inline-flex;">
+            <div style="width: 30px;"> {{row.qty}} </div>
+            <div style="width: 280px;"> {{row.text}} : </div>
+            <div style="width: 50px; text-align: right;"> {{row.subTotPrice}} </div>
+          </div>
+          <br>
+          <br>
+          <div style="width: 360px; text-align: right;">
+            <div style="width: 360px;">Sales Taxes: <b>{{receipt.totSalesTaxes}}</b></div>
+            <div style="width: 360px ;">Total: <b>{{receipt.totPrice}}</b></div>
+          </div>
+          <br>
+          <br>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+
+</div>

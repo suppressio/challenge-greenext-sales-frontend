@@ -1,0 +1,35 @@
+<div class="articles-container">
+  <!-- <h2> Articles </h2> -->
+  <div *ngFor="let article of articles" style="display: inline-block;">
+
+    <mat-card class="article-card" style="overflow: hidden;"
+      (mouseover)="article.isHovered=true"
+      (mouseleave)="article.isHovered=false"
+      [class.mat-elevation-z8]="article.isHovered"
+      [class.mat-elevation-z1]="article.isHovered">
+        <mat-card-header>
+          <div mat-card-avatar class="article-header-image">
+            <mat-icon style="margin-top: 6px;">{{getCategoryIcon(article.category)}}</mat-icon>
+          </div>
+          <mat-card-title>{{article.name}}</mat-card-title>
+          <mat-card-subtitle>{{article.category}}</mat-card-subtitle>
+        </mat-card-header>
+        <p style="height: 20px ;text-align: right; font-weight: lighter; font-size: small; margin-bottom: -20px;">{{ article.isImported? 'Imported': '' }}</p>
+        <img mat-card-image src="./assets/no-photo.svg" style="width: 50%; margin: auto; padding: 28px; opacity: 5%;" alt="Article Image">
+        <mat-card-content>
+          <p>
+            <b>Price: {{ article.price | number : '1.2-2' }}</b><br>
+            {{ article.salesTaxes>0 ? 'SalesTaxes: '+ (article.salesTaxes | number : '1.2-2') : ''}}<br>
+            {{ article.isBasicSales? 'Tax 10%': '' }}<br>
+          </p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button (click)="addToCart(article.id)">{{article.isHovered? "Add to Cart": ""}}
+            <mat-icon>add_shopping_cart</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+  </div>
+
+</div>

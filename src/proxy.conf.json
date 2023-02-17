@@ -1,0 +1,6 @@
+{
+  "/api": {
+  "target": "http://apisalestaxestest-dev.eba-gig2ketp.us-east-1.elasticbeanstalk.com",
+  "secure": false
+  }
+}
